@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Client>
+
+
+<h2>Client form</h2>
+<div class="row pt-4">
+    <div class="col-12">
+        <h2 class="text-dark text-center">Client Information</h2>
+    </div>
+
+</div>
+
+@if ((Model.Count() > 0))
+{
+    <div class="card">
+        <table class="table table-bprdered table-striped">
+            <thead>
+                <tr class="text-dark">
+                    <th>Client Name</th>
+                    <th>Client Code </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr class="text-dark">
+                        <td>@obj.Client_Name</td>
+                        <td>@obj.Client_Key</td>
+
+                        <td width="25%">
+                            <div class="w-75 btn-group" role="group">
+                                <a class="text-dark" asp-area="" asp-controller="Client" asp-action="ContactList" asp-route-id="@obj.Client_Key">
+                                    <button class="btn btn-primary">View Client Contacts</button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+    </div>
+
+}
+else
+{
+    <div class="row-12 ">
+        <div class="col-12 card text-white bg-danger b-1">
+            <div class="card-header text-center">
+                <h1>No client found</h1>
+            </div>
+        </div>
+    </div>
+
+}

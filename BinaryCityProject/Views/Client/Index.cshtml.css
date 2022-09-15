@@ -1,0 +1,31 @@
+﻿
+[data-tab-info] {
+    display: none;
+}
+
+.active[data-tab-info] {
+    display: block;
+}
+
+.tab-content {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: rgb(82, 75, 75);
+}
+
+.tabs {
+    font-size: 20px;
+    color: black;
+    display: flex;
+    margin: 0;
+}
+
+    .tabs span {
+        padding: 10px;
+        border: 1px solid rgb(255, 255, 255);
+    }
+
+        .tabs span:hover {
+            cursor: pointer;
+            color: black;
+        }

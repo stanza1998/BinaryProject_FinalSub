@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Contact>
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-12">
+            <h2 class="text-dark text-center">Contact Information</h2>
+        </div>
+
+    </div>
+
+
+    @if (Model.Count() > 0)
+    {
+
+        <table class="table table-bprdered table-striped" style="width:100%">
+            <thead>
+                <tr class="text-dark">
+                    <th>Name</th>
+                    <th>Surname </th>
+                    <th>Email Address </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
+                    <tr class="text-dark">
+                        <td width="25%">@obj.Contact_Name</td>
+                        <td width="25%">@obj.Contact_Name_Surname</td>
+                        <td width="25%">@obj.Contact_Mail</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a class="text-dark" asp-area="" asp-controller="Contact" asp-action="ClientList" asp-route-id="@obj.Contact_Key">
+                                    <button  class="btn btn-primary">View Contact Clients</button>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <br />
+
+    }
+    else
+    {
+        <div class="row-12 ">
+            <div class="col-12 card text-white bg-danger b-1">
+                <div class="card-header text-center">
+                    <h1>No contacts found</h1>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
