@@ -4,18 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Results;
+using System.Collections.Generic;
 
 namespace BinaryCityProject.Controllers
 {
-    public class Client_Contact_List_Contact_ListController : Controller
+    public class Client_Contact_ListController : Controller
     {
         private BinaryCity_DbContext _db;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public Client_Contact_List_Contact_ListController(BinaryCity_DbContext context, IHttpContextAccessor httpContextAccessor)
+        public Client_Contact_ListController(BinaryCity_DbContext context)
         {
             _db = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -25,11 +24,21 @@ namespace BinaryCityProject.Controllers
             return View(x);
         }
 
+
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<Client_Contact_List> Get([FromODataUri] int key)
+        public Client_Contact_List Get(string Client_key)
         {
-            IQueryable<Client_Contact_List> result = _db.Client_Contact_List.Where(s => s.CC_Index == key);
-            return SingleResult.Create(result);
+            Client client = _db.Client.Where(c => c.Client_Key == Client_key).FirstOrDefault()!;
+
+            Contact[] contacts = _db.Contact.ToArray();
+
+            Client_Contact_List result = new Client_Contact_List();
+            
+            result.Client_Key = Client_key;
+            result.Client = client;
+            result.contacts = contacts;
+
+            return result;
         }
 
         public async Task<IActionResult> Put([FromODataUri] int key, [FromBody] Client_Contact_List update)
@@ -99,5 +108,29 @@ namespace BinaryCityProject.Controllers
         {
             return _db.Client_Contact_List.Find(key) != null;
         }
+
+
+
+        public IActionResult ContactLink(string id)
+        { 
+           var obj = Get(id);
+            return View(obj);
+        }
+        public IActionResult LinkContact(string Contact_Key, string Client_Key)
+        {
+            Client_Contact_List insert = new Client_Contact_List();
+
+            insert.Contact_Key  = Contact_Key ;
+            insert.Client_Key = Client_Key; 
+
+            var res = _db.Add(insert);
+            _db.SaveChanges();
+
+            //return RedirectToAction("Index");
+
+            return RedirectToAction("Index", "Client", new { area = "" });
+
+        }
+
     }
 }

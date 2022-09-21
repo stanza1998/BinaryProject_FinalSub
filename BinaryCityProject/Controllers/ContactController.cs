@@ -10,12 +10,10 @@ namespace BinaryCityProject.Controllers
     public class ContactController : Controller
     {
         private BinaryCity_DbContext _db;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ContactController(BinaryCity_DbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _db = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -99,12 +97,11 @@ namespace BinaryCityProject.Controllers
         }
 
 
-
         public IActionResult ClientList(string id)
         {
             var obj = _db.Contact.Where(c => c.Contact_Key == id).FirstOrDefault()!;
 
-            var ContactClientsts = _db.Client_Contact_List.Where(c => c.Contact_Key == id);
+            var ContactClientsts = _db.Contact_Client_List.Where(c => c.Contact_Key == id);
 
             int index = ContactClientsts!.Count();
 
@@ -112,7 +109,7 @@ namespace BinaryCityProject.Controllers
 
             int i = 0;
 
-            foreach (Client_Contact_List item in ContactClientsts)
+            foreach (Contact_Client_List item in ContactClientsts)
             {
                 if (item.Contact_Key == id)
                 {
@@ -129,14 +126,14 @@ namespace BinaryCityProject.Controllers
 
         public IActionResult delinkClient(string Client_Key, string Contact_Key)
         {
-            var obj2 = _db.Client_Contact_List.Where(c => c.Client_Key == Client_Key && c.Contact_Key == Contact_Key).FirstOrDefault()!;
-            _db.Client_Contact_List.Remove(obj2);
+            var obj2 = _db.Contact_Client_List.Where(c => c.Client_Key == Client_Key && c.Contact_Key == Contact_Key).FirstOrDefault()!;
+            _db.Contact_Client_List.Remove(obj2);
             _db.SaveChanges();
 
             string id = Client_Key;
 
             var obj = _db.Client.Where(c => c.Client_Key == id).FirstOrDefault()!;
-            var ClientContacts = _db.Client_Contact_List.Where(c => c.Contact_Key == id);
+            var ClientContacts = _db.Contact_Client_List.Where(c => c.Contact_Key == id);
 
             int index = ClientContacts!.Count();
 
@@ -144,7 +141,7 @@ namespace BinaryCityProject.Controllers
 
             int i = 0;
 
-            foreach (Client_Contact_List item in ClientContacts)
+            foreach (Contact_Client_List item in ClientContacts)
             {
                 if (item.Contact_Key == id)
                 {
@@ -159,8 +156,6 @@ namespace BinaryCityProject.Controllers
             return RedirectToAction("Index");
 
         }
-
-         
 
         [EnableQuery]
         public async Task<IActionResult> Delete([FromODataUri] int key)

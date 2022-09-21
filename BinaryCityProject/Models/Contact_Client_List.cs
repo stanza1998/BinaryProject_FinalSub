@@ -12,5 +12,11 @@ namespace BinaryCityProject.Models
 #nullable enable
         public string? Contact_Key { get; set; }
         public string? Client_Key { get; set; }
+
+
+        [NotMapped]
+        public Contact? Contact{ get; set; }
+        [NotMapped]
+        public Client[]? clients{ get; set; }
     }
 }

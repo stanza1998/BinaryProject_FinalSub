@@ -13,7 +13,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddDbContext<BinaryCity_DbContext>(options => options.UseSqlServer("Data Source=NM-NB-10024638;Initial Catalog=BinaryCityDb;Integrated Security=True;MultipleActiveResultSets=True"));
+builder.Services.AddDbContext<BinaryCity_DbContext>(
+    options => 
+    options.UseSqlServer("Data Source=NM-NB-10024638;Initial Catalog=BinaryCityDb;Integrated Security=True;MultipleActiveResultSets=True"), ServiceLifetime.Transient);
 builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("odata", GetEdmModel()).Filter().Select());
 
 var app = builder.Build();

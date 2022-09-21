@@ -1,0 +1,64 @@
+﻿@model BinaryCityProject.Models.Client_Contact_List
+
+<div class="container"> 
+    <div class="card">
+        <div class="card-body d-flex justify-content-around">
+            <h2 class="card-title">@Model.Client!.Client_Name</h2>
+        </div>
+        <div class="card-body d-flex justify-content-around">
+            <p class="card-text">
+                <h3>Client Key : <b>@Model.Client_Key</b> </h3>
+                <h3> No. Of Total Contacts : @Model.contacts!.Length</h3>
+            </p>
+        </div>
+
+        @if (Model.contacts!.Length! > 0)
+        {
+
+            <div class="container p-3"> 
+
+                <table class="table table-bprdered table-striped" style="width:100%">
+                    <thead>
+                        <tr class="text-dark">
+                            <th>Name</th>
+                            <th>Surname </th>
+                            <th>Email Address </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var obj in Model.contacts)
+                        {
+                            <tr class="text-dark">
+                                <td width="25%">@obj.Contact_Name</td>
+                                <td width="25%">@obj.Contact_Name_Surname</td>
+                                <td width="25%">@obj.Contact_Mail</td>
+                                <td>
+                                    <div class="w-75 btn-group" role="group">
+                                        <a class="text-dark" asp-area="" asp-controller="Client_Contact_List" asp-action="LinkContact"
+                                   asp-route-Client_Key="@Model.Client_Key"
+                                   asp-route-Contact_Key="@obj.Contact_Key">
+                                            <button class="btn btn-primary">Link  Contact</button>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <br />
+                <br />
+
+            </div>
+
+        }
+        else
+        {
+
+            <button type="button" class="btn btn-danger btn-lg">No Contacts Available To Link [!]</button>
+
+        }
+
+    </div>
+</div>
+
+

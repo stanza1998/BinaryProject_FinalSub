@@ -9,11 +9,19 @@
   <ItemGroup>
     <None Remove="Views\Client\Index.cshtml.css" />
     <None Remove="Views\Client\Index.cshtml.js" />
+    <None Remove="Views\Contact_Client_List\Index.cshtml.css" />
+    <None Remove="Views\Contact_Client_List\Index.cshtml.js" />
+    <None Remove="Views\Client_Contact_List\Index.cshtml.css" />
+    <None Remove="Views\Client_Contact_List\Index.cshtml.js" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Views\Client\Index.cshtml.js" />
     <Content Include="Views\Client\Index.cshtml.css" />
+    <Content Include="Views\Contact_Client_List\Index.cshtml.css" />
+    <Content Include="Views\Contact_Client_List\Index.cshtml.js" />
+    <Content Include="Views\Client_Contact_List\Index.cshtml.css" />
+    <Content Include="Views\Client_Contact_List\Index.cshtml.js" />
   </ItemGroup>
 
   <ItemGroup>

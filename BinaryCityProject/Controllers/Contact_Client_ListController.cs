@@ -10,12 +10,10 @@ namespace BinaryCityProject.Controllers
     public class Contact_Client_ListController : Controller
     {
         private BinaryCity_DbContext _db;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public Contact_Client_ListController(BinaryCity_DbContext context, IHttpContextAccessor httpContextAccessor)
+        public Contact_Client_ListController(BinaryCity_DbContext context)
         {
             _db = context;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -25,10 +23,19 @@ namespace BinaryCityProject.Controllers
         }
 
         [EnableQuery(MaxExpansionDepth = 4)]
-        public SingleResult<Contact_Client_List> Get([FromODataUri] int key)
+        public Contact_Client_List Get(string Contact_Key)
         {
-            IQueryable<Contact_Client_List> result = _db.Contact_Client_List.Where(s => s.CC_Index == key);
-            return SingleResult.Create(result);
+            Contact contact= _db.Contact.Where(c => c.Contact_Key == Contact_Key).FirstOrDefault()!;
+
+            Client[] clients = _db.Client.ToArray();
+
+            Contact_Client_List result = new Contact_Client_List();
+
+            result.Contact_Key = Contact_Key;
+            result.Contact = contact;
+            result.clients = clients;
+
+            return result;
         }
 
         public async Task<IActionResult> Put([FromODataUri] int key, [FromBody] Contact_Client_List update)
@@ -95,6 +102,29 @@ namespace BinaryCityProject.Controllers
         bool Exists(int key)
         {
             return _db.Contact_Client_List.Find(key) != null;
+        }
+
+
+        public IActionResult ClientLink(string id)
+        {
+            var obj = Get(id);
+            return View(obj);
+        }
+
+
+        public IActionResult LinkClient(string Contact_Key, string Client_Key)
+        {
+            Contact_Client_List insert = new Contact_Client_List();
+
+            insert.Contact_Key = Contact_Key;
+            insert.Client_Key = Client_Key;
+
+            var res = _db.Contact_Client_List.Add(insert);
+            _db.SaveChanges();
+             
+
+            return RedirectToAction("Index", "Contact", new { area = "" });
+
         }
     }
 }
